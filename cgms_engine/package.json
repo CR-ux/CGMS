@@ -1,5 +1,5 @@
 {
-	"name": "ai-ra-worker",
+	"name": "cgms-worker",
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
