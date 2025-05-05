@@ -36,7 +36,7 @@ export default {
         headers: { "Content-Type": "application/json", ...corsHeaders },
       });
     }
-
+//test
     const resolvedPath = indexData[query];
     if (!resolvedPath) {
       return new Response(JSON.stringify({ error: "Document not found in index" }), {
