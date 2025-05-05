@@ -1,0 +1,13 @@
+# system files
+.DS_Store
+*.log
+*.lock
+
+# VSCode etc
+.vscode/
+
+# build artifacts
+dist/
+build/
+.next/
+node_modules/
