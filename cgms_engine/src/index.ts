@@ -14,7 +14,7 @@ export default {
 
     if (Object.keys(indexData).length === 0) {
       try {
-		const res = await fetch('https://raw.githubusercontent.com/CR-ux/THE-VAULgit agit a');        if (!res.ok) throw new Error("Failed to fetch index.json");
+		const res = await fetch('https://raw.githubusercontent.com/CR-ux/CGMS/main/The%20Woman%20In%20The%20Wallpaper/index.json');        if (!res.ok) throw new Error("Failed to fetch index.json");
         const rawJson = await res.json() as Record<string, string>;
         console.log("Fetched index.json keys:", Object.keys(rawJson));
         indexData = rawJson;
@@ -44,7 +44,7 @@ export default {
         headers: { "Content-Type": "application/json", ...corsHeaders },
       });
     }
-    const rawUrl = `https://raw.githubusercontent.com/CR-ux/THE-VAULT/main/${encodeURIComponent(resolvedPath)}`;
+    const rawUrl = `https://raw.githubusercontent.com/CR-ux/CGMS/main/The%20Woman%20In%20The%20Wallpaper/${encodeURIComponent(resolvedPath)}`;
     let mdContent = "";
 //builtlog
 console.log('Query:', query);

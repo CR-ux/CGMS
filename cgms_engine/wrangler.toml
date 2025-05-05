@@ -1,0 +1,10 @@
+name = "cgms-worker"
+type = "javascript"
+main = "src/index.ts"
+
+account_id = "ae58c2e630df3771980323de51f963a3"
+workers_dev = true
+compatibility_date = "2025-05-05"
+
+[build]
+command = "npm install && npm run build"
