@@ -1,0 +1,6 @@
+# hex-3-9
+
+
+![[PEERING THROUGH THE FEARFUL HOPE OF THE MACROSCOPE]]
+## Exits
+- [[hex-4-Y]]
