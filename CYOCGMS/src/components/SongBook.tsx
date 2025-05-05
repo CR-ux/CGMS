@@ -1,8 +1,8 @@
+import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import '../App.css'; // we'll style it here
 import remarkGfm from 'remark-gfm';
+import '../App.css'; // we'll style it here
 import comfortably from '../assets/comfortably.md?raw';
-
 
 const SongBook = () => {
   return (

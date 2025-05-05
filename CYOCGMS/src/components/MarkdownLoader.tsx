@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import React from 'react';
 
 const MarkdownLoader = ({ fileUrl }: { fileUrl: string }) => {
   const [content, setContent] = useState('');
