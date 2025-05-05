@@ -14,7 +14,7 @@ export default {
 
     if (Object.keys(indexData).length === 0) {
       try {
-		const res = await fetch('https://raw.githubusercontent.com/CR-ux/THE-VAULT/main/index.json');        if (!res.ok) throw new Error("Failed to fetch index.json");
+		const res = await fetch('https://raw.githubusercontent.com/CR-ux/THE-VAULgit agit a');        if (!res.ok) throw new Error("Failed to fetch index.json");
         const rawJson = await res.json() as Record<string, string>;
         console.log("Fetched index.json keys:", Object.keys(rawJson));
         indexData = rawJson;
