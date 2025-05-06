@@ -1,9 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import SongBook from './components/songBook';
+import SongBook from './components/SongBook';
+import './index.css';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <SongBook />
-  </React.StrictMode>
-);
+const root = document.getElementById('root');
+
+if (root) {
+  ReactDOM.createRoot(root).render(
+    <React.StrictMode>
+      <SongBook />
+    </React.StrictMode>
+  );
+} else {
+  console.error('❌ Root element not found');
+}

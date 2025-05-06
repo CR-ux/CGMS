@@ -12,9 +12,31 @@ const MarkdownLoader = ({ fileUrl }: { fileUrl: string }) => {
       .catch((err) => setContent("Failed to load content."));
   }, [fileUrl]);
 
+  const BASE_URL = import.meta.env.PROD
+    ? 'https://yourdomain.com'
+    : 'http://localhost:5173';
+
   return (
     <div className="storybook-content">
-      <ReactMarkdown>{content}</ReactMarkdown>
+      <ReactMarkdown
+        components={{
+          img({ node, ...props }) {
+            return (
+              <img
+                {...props}
+                src={
+                  props.src?.startsWith('/images')
+                    ? `${BASE_URL}${props.src}`
+                    : props.src
+                }
+                alt={props.alt}
+              />
+            );
+          },
+        }}
+      >
+        {content}
+      </ReactMarkdown>
     </div>
   );
 };
