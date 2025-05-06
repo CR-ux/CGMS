@@ -5,7 +5,7 @@
 	"scripts": {
 		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
-		"build": "vite build",
+		"build": "vite build --outDir dist",
 		"start": "wrangler dev",
 		"test": "vitest",
 		"cf-typegen": "wrangler types",
