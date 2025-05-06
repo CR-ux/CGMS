@@ -145,7 +145,7 @@ const SongBook = () => {
                 img: ({ src, alt }) => {
                   return (
                     <img
-                      src={src?.startsWith('/') ? src : `/images/${src}`}
+                      src={src?.startsWith('/') ? src : `/${src}`}
                       alt={alt || ''}
                       style={{
                         maxWidth: '80%',
@@ -171,10 +171,11 @@ const SongBook = () => {
                               .trim()
                               .replace(/\.(md|png|jpg|jpeg)$/, '')
                               .replace(/ /g, '%20');
-                            const rawUrl = `https://raw.githubusercontent.com/CR-ux/THE-VAULT/refs/heads/main/notBorges/${fileName}.md`;
+                            const rawUrl = `https://raw.githubusercontent.com/CR-ux/CGMS/main/cgms_engine/The%20Woman%20In%20The%20Wallpaper/${fileName}.md`;
                             return (
                               <div key={index} style={{ padding: '1rem', border: '1px dashed #888', margin: '1rem 0' }}>
-                                <EmbeddedMarkdown fileName={`notBorges/${decodeURIComponent(fileName)}`} />
+                                <EmbeddedMarkdown fileName={decodeURIComponent(fileName)} />
+                                
                               </div>
                             );
                           })}

@@ -21,12 +21,13 @@ const MarkdownLoader = ({ fileUrl }: { fileUrl: string }) => {
       <ReactMarkdown
         components={{
           img({ node, ...props }) {
+            console.log("Rendering image with src:", props.src);
             return (
               <img
                 {...props}
                 src={
-                  props.src?.startsWith('/images')
-                    ? `${BASE_URL}${props.src}`
+                  props.src?.includes('images/')
+                    ? `${BASE_URL}/${props.src.replace(/^.*?images\//, 'images/')}`
                     : props.src
                 }
                 alt={props.alt}

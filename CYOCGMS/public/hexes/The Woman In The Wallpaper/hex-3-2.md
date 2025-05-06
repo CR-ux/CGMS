@@ -2,6 +2,6 @@
 
 Yet, For Worse
 
-![[The lexDict.pdf]]
+![The lexDict](https://www.carpvs.com/lexDict%2C+Noen+Edition+VI)
 ## Exits
 - [[hex-4-U]]
