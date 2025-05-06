@@ -7,8 +7,13 @@ Epigraph:
 
 test
 ![Interface](/images/Interface.png)
-![[we discovered]]
-![[this universe (which some call the hospital)]]
+
+![[]]
+
+![(In My Beginning)](https://www.carpvs.com/(In%20My%20Beginning))
+
+
+![this universe (which some call the hospital)](https://raw.githubusercontent.com/CR-ux/THE-VAULT/main/notBorges/this%20universe%20(which%20some%20call%20the%20hospital).md)
 
 ## Exits
 - [[hex-2-1]] | To Remember

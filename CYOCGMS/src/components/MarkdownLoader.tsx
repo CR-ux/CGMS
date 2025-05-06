@@ -2,6 +2,20 @@ import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import React from 'react';
 
+function convertWikilinks(md: string): string {
+  return md
+    // Convert image wikilinks: ![[image.png]]
+    .replace(/!\[\[([^\]]+?)\]\]/g, (_, filename) => {
+      const encoded = encodeURIComponent(filename.trim());
+      return `![${filename}](/images/${encoded} "/vault/images/${encoded}")`;
+    })
+    // Convert normal wikilinks: [[page.md]]
+    .replace(/\[\[([^\]]+?)\]\]/g, (_, filename) => {
+      const encoded = encodeURIComponent(filename.trim());
+      return `[${filename}](/hexes/${encoded} "/vault/${encoded}")`;
+    });
+}
+
 const MarkdownLoader = ({ fileUrl }: { fileUrl: string }) => {
   const [content, setContent] = useState('');
 
@@ -12,31 +26,28 @@ const MarkdownLoader = ({ fileUrl }: { fileUrl: string }) => {
       .catch((err) => setContent("Failed to load content."));
   }, [fileUrl]);
 
-  const BASE_URL = import.meta.env.PROD
-    ? 'https://yourdomain.com'
-    : 'http://localhost:5173';
 
   return (
     <div className="storybook-content">
       <ReactMarkdown
         components={{
           img({ node, ...props }) {
-            console.log("Rendering image with src:", props.src);
+            const fallbackSrc = props.src?.replace('/images/', '/vault/images/');
             return (
               <img
                 {...props}
-                src={
-                  props.src?.includes('images/')
-                    ? `${BASE_URL}/${props.src.replace(/^.*?images\//, 'images/')}`
-                    : props.src
-                }
+                onError={(e) => {
+                  if (e.currentTarget.src !== window.location.origin + fallbackSrc) {
+                    e.currentTarget.src = fallbackSrc;
+                  }
+                }}
                 alt={props.alt}
               />
             );
           },
         }}
       >
-        {content}
+        {convertWikilinks(content)}
       </ReactMarkdown>
     </div>
   );

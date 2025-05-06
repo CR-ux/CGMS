@@ -13,7 +13,7 @@ const SongBook = () => {
   const [markdown, setMarkdown] = useState("");
   const [currentPath, setCurrentPath] = useState("centre.md");
   const [options, setOptions] = useState<BranchOption[]>([
-    { label: "Queen", next: "Queen.md" },
+    { label: "Queen", next: "hex-1-A.md" },
     { label: "Pawn", next: "hex-1-B.md" },
     { label: "Knight", next: "hex-1-C.md" },
     { label: "Bishop", next: "hex-1-D.md" },
@@ -24,9 +24,22 @@ const SongBook = () => {
   const fetchMarkdown = async (path: string) => {
     try {
       console.log("Fetching markdown for path:", path);
-      const res = await fetch(`https://raw.githubusercontent.com/CR-ux/CGMS/main/cgms_engine/The%20Woman%20In%20The%20Wallpaper/${encodeURIComponent(path)}`);
-      const text = await res.text();
-      // setMarkdown(text); // replaced by strippedText
+      const base1 = `https://raw.githubusercontent.com/CR-ux/CGMS/main/cgms_engine/The%20Woman%20In%20The%20Wallpaper/${encodeURIComponent(path)}`;
+      const base2 = `https://carpvs.com/${encodeURIComponent(path)}`;
+
+      const tryFetch = async (url: string) => {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Failed to fetch from ${url}`);
+        return res.text();
+      };
+
+      let text = '';
+      try {
+        text = await tryFetch(base1);
+      } catch {
+        text = await tryFetch(base2);
+      }
+
       const strippedText = text
         .split('## Links')[0]
         .split('## Exits')[0]
@@ -74,10 +87,43 @@ const SongBook = () => {
   const EmbeddedMarkdown: React.FC<{ fileName: string }> = ({ fileName }) => {
     const [embeddedContent, setEmbeddedContent] = useState('');
     useEffect(() => {
-      fetch(`https://raw.githubusercontent.com/CR-ux/THE-VAULT/refs/heads/main/${fileName}.md`)
-        .then(res => res.text())
-        .then(text => setEmbeddedContent(text))
-        .catch(() => setEmbeddedContent('Error loading transcluded content.'));
+      const encoded = encodeURIComponent(fileName.endsWith('.md') ? fileName : `${fileName}.md`);
+      const base1 = `https://raw.githubusercontent.com/CR-ux/CGMS/main/cgms_engine/The%20Woman%20In%20The%20Wallpaper/${encoded}`;
+      const base2 = `https://raw.githubusercontent.com/CR-ux/THE-VAULT/refs/heads/main/${encoded}`;
+
+      const tryFetch = async (url: string) => {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Failed to fetch from ${url}`);
+        return res.text();
+      };
+
+      const resolveFromVaultIndex = async (target: string) => {
+        try {
+          const indexRes = await fetch('https://raw.githubusercontent.com/CR-ux/THE-VAULT/main/index.json');
+          const index = await indexRes.json();
+          const entries = Object.values(index) as string[];
+          const match = entries.find(entry => entry.endsWith(target));
+          if (match) {
+            const fullUrl = `https://raw.githubusercontent.com/CR-ux/THE-VAULT/refs/heads/main/${match}`;
+            return await tryFetch(fullUrl);
+          }
+        } catch (err) {
+          console.error('Index fallback failed:', err);
+        }
+        throw new Error('Could not resolve from index');
+      };
+
+      tryFetch(base1)
+        .then(setEmbeddedContent)
+        .catch(() =>
+          tryFetch(base2)
+            .then(setEmbeddedContent)
+            .catch(() =>
+              resolveFromVaultIndex(fileName.endsWith('.md') ? fileName : `${fileName}.md`)
+                .then(setEmbeddedContent)
+                .catch(() => setEmbeddedContent('Error loading transcluded content.'))
+            )
+        );
     }, [fileName]);
 
     return (
