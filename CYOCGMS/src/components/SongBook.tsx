@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import BranchNavigation from './BranchNav';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import '../App.css';
@@ -10,7 +9,6 @@ type BranchOption = {
 };
 
 const SongBook = () => {
-  // Top-down rendering: we begin at the centre and let UI cascade downward
   console.log("Rendering SongBook component");
   const [markdown, setMarkdown] = useState("");
   const [currentPath, setCurrentPath] = useState("centre.md");
@@ -72,10 +70,11 @@ const SongBook = () => {
     fetchMarkdown(currentPath);
   }, [currentPath]);
 
+  // Renders embedded .md files from THE VAULT repo (transclusion)
   const EmbeddedMarkdown: React.FC<{ fileName: string }> = ({ fileName }) => {
     const [embeddedContent, setEmbeddedContent] = useState('');
     useEffect(() => {
-      fetch(`https://raw.githubusercontent.com/CR-ux/THE-VAULT/main/${fileName}.md`)
+      fetch(`https://raw.githubusercontent.com/CR-ux/THE-VAULT/refs/heads/main/${fileName}.md`)
         .then(res => res.text())
         .then(text => setEmbeddedContent(text))
         .catch(() => setEmbeddedContent('Error loading transcluded content.'));
@@ -119,6 +118,11 @@ const SongBook = () => {
         />
         <div className="storybook-content">
           <>
+            {transcludedBlocks.map((fileName, index) => (
+              <div key={index} style={{ padding: '1rem', border: '1px dashed #888', margin: '1rem 0' }}>
+                <EmbeddedMarkdown fileName={`notBorges/${fileName}`} />
+              </div>
+            ))}
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
@@ -138,41 +142,23 @@ const SongBook = () => {
                 },
                 ul: (props) => React.createElement('ul', { className: 'exit-doors' }, props.children),
                 li: (props) => React.createElement('li', { className: 'door' }, props.children),
-                img: (props) => {
-                  if (props.src?.startsWith('/images')) {
-                    return (
-                      <img
-                        src={props.src}
-                        alt={props.alt || ''}
-                        style={{
-                          maxWidth: '100%',
-                          display: 'block',
-                          margin: '2rem auto',
-                          borderRadius: '8px',
-                          boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
-                        }}
-                      />
-                    );
-                  }
-
-                  if (props.src?.startsWith('images/')) {
-                    return (
-                      <img
-                        src={`/images/${props.src.replace(/^images\//, '')}`}
-                        alt={props.alt || ''}
-                        style={{
-                          maxWidth: '100%',
-                          display: 'block',
-                          margin: '2rem auto',
-                          borderRadius: '8px',
-                          boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
-                        }}
-                      />
-                    );
-                  }
-
-                  return null;
+                img: ({ src, alt }) => {
+                  return (
+                    <img
+                      src={src?.startsWith('/') ? src : `/images/${src}`}
+                      alt={alt || ''}
+                      style={{
+                        maxWidth: '80%',
+                        height: 'auto',
+                        display: 'block',
+                        margin: '2rem auto',
+                        borderRadius: '12px',
+                        boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+                      }}
+                    />
+                  );
                 },
+                // Handles inline Obsidian-style embeds like ![[Some Note]] in markdown body
                 text: ({ children }) => {
                   if (typeof children[0] === 'string') {
                     const text = children[0];
@@ -202,14 +188,14 @@ const SongBook = () => {
             >
               {strippedMarkdown}
             </ReactMarkdown>
-            <BranchNavigation options={options} onNavigate={setCurrentPath} />
-            {transcludedBlocks.map((fileName, index) => (
-              <div key={index} style={{ padding: '1rem', border: '1px dashed #888', margin: '1rem 0' }}>
-                <EmbeddedMarkdown fileName={`notBorges/${fileName}`} />
-              </div>
-            ))}
           </>
-          {/* Moved buttons to follow primary content for top-down UX */}
+          <div className="button-group" style={{ textAlign: 'center', marginBottom: '1rem' }}>
+            {options.map((option) => (
+              <button key={option.next} onClick={() => setCurrentPath(option.next)} style={{ margin: '0 0.5rem' }}>
+                {option.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>

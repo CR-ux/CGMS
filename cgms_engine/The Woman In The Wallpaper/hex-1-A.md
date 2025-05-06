@@ -7,7 +7,7 @@ Epigraph:
 
 The Universe (Which Some Call The Hospital)
 
-![alt text](../../CYOCGMS/public/images/Interface.png)
+![alt text](/Interface.png)
 
 
 ![[this universe (which some call the hospital)]]
