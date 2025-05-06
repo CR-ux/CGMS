@@ -13,7 +13,7 @@ const SongBook = () => {
   const [markdown, setMarkdown] = useState("");
   const [currentPath, setCurrentPath] = useState("centre.md");
   const [options, setOptions] = useState<BranchOption[]>([
-    { label: "Queen", next: "hex-1-A.md" },
+    { label: "Queen", next: "Queen.md" },
     { label: "Pawn", next: "hex-1-B.md" },
     { label: "Knight", next: "hex-1-C.md" },
     { label: "Bishop", next: "hex-1-D.md" },
