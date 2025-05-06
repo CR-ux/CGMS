@@ -2,14 +2,7 @@
 	"name": "cgms-worker",
 	"version": "0.0.0",
 	"private": true,
-	"scripts": {
-		"deploy": "wrangler deploy",
-		"dev": "wrangler dev",
-		"start": "wrangler dev",
-		"test": "vitest",
-		"cf-typegen": "wrangler types",
-		"build-index": "node build-index.js"
-	},
+	
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "^0.7.5",
 		"@cloudflare/workers-types": "^4.20250415.0",
