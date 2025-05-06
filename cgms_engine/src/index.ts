@@ -4,7 +4,6 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
-let indexData: Record<string, string> = {};
 
 export default {
   async fetch(request: Request): Promise<Response> {
@@ -12,23 +11,11 @@ export default {
       return new Response(null, { status: 204, headers: corsHeaders });
     }//test
 
-    if (Object.keys(indexData).length === 0) {
-      try {
-		const res = await fetch('https://raw.githubusercontent.com/CR-ux/CGMS/main/The%20Woman%20In%20The%20Wallpaper/index.json');        if (!res.ok) throw new Error("Failed to fetch index.json");
-        const rawJson = await res.json() as Record<string, string>;
-        console.log("Fetched index.json keys:", Object.keys(rawJson));
-        indexData = rawJson;
-      } catch (error) {
-        return new Response(JSON.stringify({ error: "Failed to fetch index.json" }), {
-          status: 500,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        });
-      }
-    }
 
-    const { searchParams } = new URL(request.url);
-    const rawQuery = searchParams.get("q");
-    const query = decodeURIComponent((rawQuery || "").trim().replace(/^\/+|\/+$/g, ""));
+    const { searchParams } = new URL(request.url);    const docName = searchParams.get("doc") || "centre.md";
+    const rawUrl = `https://raw.githubusercontent.com/CR-ux/CGMS/main/cgms_engine/The%20Woman%20In%20The%20Wallpaper/${docName}`;
+
+    const query = docName.replace(".md", "");
 
     if (!query) {
       return new Response(JSON.stringify({ error: "No query provided" }), {
@@ -37,22 +24,17 @@ export default {
       });
     }
 //test
-    const resolvedPath = indexData[query];
-    if (!resolvedPath) {
-      return new Response(JSON.stringify({ error: "Document not found in index" }), {
-        status: 404,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      });
-    }
-    const rawUrl = `https://raw.githubusercontent.com/CR-ux/CGMS/main/The%20Woman%20In%20The%20Wallpaper/${encodeURIComponent(resolvedPath)}`;
+
     let mdContent = "";
 //builtlog
 console.log('Query:', query);
-console.log('Resolved Path:', resolvedPath);
     try {
       const mdRes = await fetch(rawUrl);
       if (!mdRes.ok) throw new Error("Failed to fetch markdown file");
       mdContent = await mdRes.text();
+      // Rewrite image paths to full frontend URLs
+      const BASE_IMAGE_URL = "http://localhost:5173"; // or your actual domain
+      mdContent = mdContent.replace(/\!\[(.*?)\]\(\s*\/images\/(.*?)\)/g, `![$1](${BASE_IMAGE_URL}/images/$2)`);
       console.log("Fetched Markdown:", mdContent.slice(0, 1000));
     } catch (error) {
       return new Response(JSON.stringify({ error: "Failed to fetch file" }), {
