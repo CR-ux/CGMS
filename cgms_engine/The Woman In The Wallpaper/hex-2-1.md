@@ -2,8 +2,7 @@
 
 I Am, The Remembering of Providence. 
 
-![[I]]
-
+[I](https://www.carpvs.com/lexicomythography/unit/%C3%86cademy+of+%C3%86schertology/ARTICLES%2C+REFS/I)
 
 ![[Am]]
 
