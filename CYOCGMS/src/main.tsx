@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import SongBook from './components/SongBook';
 import './index.css';
-
 const root = document.getElementById('root');
 
 if (root) {
