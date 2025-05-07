@@ -1,17 +1,20 @@
-# Queen
-//
+# centre
 
-Epigraph:
-"By this path is the Dreamer Dreamt, and the Dream Remembered, Then Forgotten Again."
-- Jorge Luis Borges, 2025.
 
-test
-![Interface](/images/Interface.png)
+You Are In The Centre 
+Of A System 
+Of At Least 
+Six Rooms. 
 
-<a href="https://www.carpvs.com/(In%20My%20Beginning)">In My Beginning</a>
 
-![this universe (which some call the hospital)](https://raw.githubusercontent.com/CR-ux/THE-VAULT/main/notBorges/this%20universe%20(which%20some%20call%20the%20hospital).md)
+Who Moves First?
 
-## Exits
-- [[hex-2-1]] | To Remember
-- [[hex-2-2]] | To Forget 
+
+
+## Links
+- [[hex-1-A]] | Queen
+- [[hex-1-B]] | Pawn
+- [[hex-1-C]] | Knight
+- [[hex-1-D]] | Bishop
+- [[hex-1-E]] | Rook
+- [[hex-1-F]] | King
