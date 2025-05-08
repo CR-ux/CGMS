@@ -7,7 +7,6 @@ Epigraph:
 
 The Universe (Which Some Call The Hospital)
 
-![alt text](/Interface.png)
 
 
 ![[this universe (which some call the hospital)]]
